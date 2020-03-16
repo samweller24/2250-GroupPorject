@@ -1,0 +1,20 @@
+fileFormatVersion: 2
+guid: d4dacfedbac4c44b9bd3ba022481819f
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - alertText: {instanceID: 0}
+  - storyText: {instanceID: 0}
+  - Player: {fileID: 4345325577581687990, guid: ad09be8b00b4d48c580d04cc0cbc6e6b,
+      type: 3}
+  - hand: {instanceID: 0}
+  - leftHand: {instanceID: 0}
+  - spotLight: {instanceID: 0}
+  - img: {instanceID: 0}
+  - uiInventory: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
