@@ -5,18 +5,18 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
     path: Assets/_scenes/MainMenu.unity
     guid: d9e315a0177d5483480fa4a3bf477771
   - enabled: 1
-    path: Assets/_scenes/GunTest.unity
-    guid: 39cb8e5dd94c742cd966597e1ac8e9f1
+    path: Assets/_scenes/playerSelect.unity
+    guid: dcc35467760f6427c87834db54d96cea
   - enabled: 1
     path: Assets/_scenes/MainLevel.unity
     guid: f0ca26a6f544a43aa92b9745bf7738f8
+  - enabled: 1
+    path: Assets/_scenes/GunTest.unity
+    guid: 39cb8e5dd94c742cd966597e1ac8e9f1
   - enabled: 1
     path: Assets/_scenes/SamLevel.unity
     guid: 1ee10f44e9c934bfa80c4dea34b43006
