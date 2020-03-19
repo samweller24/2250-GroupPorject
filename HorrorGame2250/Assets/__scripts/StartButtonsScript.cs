@@ -9,4 +9,9 @@ public class StartButtonsScript : MonoBehaviour
     {
         SceneManager.LoadScene("playerSelect");
     }
+
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
