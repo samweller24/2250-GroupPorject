@@ -24,4 +24,9 @@ public class buttonClickClass : MonoBehaviour
     void LoadGame(){
          SceneManager.LoadScene("MainLevel");
     }
+
+    void QuitGame()
+    {
+        Application.Quit();
+    }
 }
