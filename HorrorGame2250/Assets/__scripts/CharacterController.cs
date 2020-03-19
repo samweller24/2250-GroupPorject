@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CharacterController : MonoBehaviour
 {
@@ -17,6 +18,19 @@ public class CharacterController : MonoBehaviour
     private bool status = false;
     private bool fDown = false;
     private bool pageOneVisted = false;
+
+    private bool isGrounded;
+    public bool imgStatus;
+    public AudioSource playerHit;
+    Scene m_Scene;
+    string sceneName;
+
+
+
+    public float health = 10f;
+
+    //Start is called before the first frame update
+
     public bool imgStatus;
     private readonly string selectedCharacter = "SelectedCharacter";
 
@@ -47,6 +61,14 @@ public class CharacterController : MonoBehaviour
 
         Cursor.lockState = CursorLockMode.Locked;
         img.enabled = false;
+        ResetText();
+        img.enabled = false;
+        playerHit = GetComponent<AudioSource>();
+
+         
+         if(SceneManager.GetActiveScene().name == "SamLevel"){
+             CheckLight();
+         }
     }
 
     private void Awake()
@@ -61,6 +83,7 @@ public class CharacterController : MonoBehaviour
         float translation;
         float strafe;
         CheckLight();
+
         // float translation = Input.GetAxis("Vertical");
         // float strafe = Input.GetAxis("Horizontal");
         // Vector3 move = transform.right * strafe + transform.forward * translation;
@@ -189,21 +212,32 @@ public class CharacterController : MonoBehaviour
                 inventory.AddItem(new PickUpItem { itemType = PickUpItem.ItemType.Map, amount = 1 });
                 uiInventory.SetInventory(inventory);
             }
-            pageOneVisted = true;
+         }
+
+         public void ExitStoryPage(){
+                imgStatus = false;
+                img.enabled = imgStatus;
+         }
+
+        public void TakeDamage(float amount){
+            health -= amount;
+            //playerHit.Play();
+            if(health <= 0){
+            Die();
+            }
         }
-    }
+        
+        void Die(){
+             Destroy(gameObject);
+             alertText.text = "You Died";
+             SceneManager.LoadScene("SamLevel");
+         }
 
-    public void ExitStoryPage()
-    {
-        imgStatus = false;
-        img.enabled = imgStatus;
-    }
+         void  OnTriggerExit(Collider col){
+               ResetText();
+            ExitStoryPage();
+         }
 
-    void OnTriggerExit(Collider col)
-    {
-        ResetText();
-        ExitStoryPage();
-    }
 
 
 }
