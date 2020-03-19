@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class CharacterController : MonoBehaviour
 {
@@ -17,16 +18,29 @@ public class CharacterController : MonoBehaviour
     private bool status = false;
     private bool fDown = false;
     private bool pageOneVisted = false;
-     public bool imgStatus;
+    private bool isGrounded;
+    public bool imgStatus;
+    public AudioSource playerHit;
+     Scene m_Scene;
+    string sceneName;
 
 
 
     public float speed = 20.0f;
+    public float health = 10f;
+
     //Start is called before the first frame update
     void Start()
     {
          Cursor.lockState = CursorLockMode.Locked;
+         ResetText();
          img.enabled = false;
+         playerHit = GetComponent<AudioSource>();
+
+         
+         if(SceneManager.GetActiveScene().name == "SamLevel"){
+             CheckLight();
+         }
     }
 
     private void Awake(){
@@ -41,11 +55,6 @@ public class CharacterController : MonoBehaviour
     {
         
         CheckLight();
-        // float translation = Input.GetAxis("Vertical");
-        // float strafe = Input.GetAxis("Horizontal");
-        // Vector3 move = transform.right * strafe + transform.forward * translation;
-
-        // transform.Translate(move);
         float translation = Input.GetAxis("Vertical")*speed;
         float strafe = Input.GetAxis("Horizontal")*speed;
         translation *= Time.deltaTime;
@@ -150,15 +159,24 @@ public class CharacterController : MonoBehaviour
                 imgStatus = false;
                 img.enabled = imgStatus;
          }
-    
-        
-         
-    
 
-    void  OnTriggerExit(Collider col){
-        ResetText();
-        ExitStoryPage();
-    }
+        public void TakeDamage(float amount){
+            health -= amount;
+            //playerHit.Play();
+            if(health <= 0){
+            Die();
+            }
+        }
+        void Die(){
+             Destroy(gameObject);
+             alertText.text = "You Died";
+             SceneManager.LoadScene("SamLevel");
+         }
+
+         void  OnTriggerExit(Collider col){
+               ResetText();
+            ExitStoryPage();
+         }
 
 
 }

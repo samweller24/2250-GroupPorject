@@ -299,7 +299,9 @@ MonoBehaviour:
   img: {fileID: 0}
   uiInventory: {fileID: 0}
   imgStatus: 0
+  playerHit: {fileID: 0}
   speed: 7
+  health: 10
 --- !u!136 &4345325577581687991
 CapsuleCollider:
   m_ObjectHideFlags: 0
