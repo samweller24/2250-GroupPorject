@@ -18,12 +18,33 @@ public class CharacterController : MonoBehaviour
     private bool fDown = false;
     private bool pageOneVisted = false;
     public bool imgStatus;
+    private readonly string selectedCharacter = "SelectedCharacter";
 
 
-    public float speed = 20.0f;
+    public float speed;
     //Start is called before the first frame update
     void Start()
     {
+        int getCharacter;
+        getCharacter = PlayerPrefs.GetInt(selectedCharacter);
+
+        switch(getCharacter)
+        {
+            case 1:
+                speed = 23.0f;
+                break;
+            case 2:
+                speed = 17.0f;
+                break;
+            case 3:
+                speed = 10.0f;
+                break;
+            default:
+                speed = 17.0f;
+                break;
+        }
+
+
         Cursor.lockState = CursorLockMode.Locked;
         img.enabled = false;
     }
