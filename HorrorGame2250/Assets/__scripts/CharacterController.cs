@@ -11,10 +11,10 @@ public class CharacterController : MonoBehaviour
     public GameObject hand;
     public GameObject leftHand;
     public GameObject spotLight;
-    private Inventory inventory;
+    public Inventory inventory;
     public Image img;
     private Vector3 FlashlightAngle = new Vector3(124.943f, 3.28299f, -176.69f);
-    public UI_Inventory uiInventory;
+    public  UI_Inventory uiInventory;
     private bool status = false;
     private bool fDown = false;
     private bool pageOneVisted = false;
@@ -75,6 +75,7 @@ public class CharacterController : MonoBehaviour
     {
         inventory = new Inventory();
         uiInventory.SetInventory(inventory);
+       
     }
 
     // Update is called once per frame
@@ -84,11 +85,6 @@ public class CharacterController : MonoBehaviour
         float strafe;
         CheckLight();
 
-        // float translation = Input.GetAxis("Vertical");
-        // float strafe = Input.GetAxis("Horizontal");
-        // Vector3 move = transform.right * strafe + transform.forward * translation;
-
-        // transform.Translate(move);
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -100,9 +96,6 @@ public class CharacterController : MonoBehaviour
             translation = Input.GetAxis("Vertical") * speed * 1.0f;
             strafe = Input.GetAxis("Horizontal") * speed * 1.0f;
         }
-
-        //float translation = Input.GetAxis("Vertical")*speed;
-        //float strafe = Input.GetAxis("Horizontal")*speed;
         translation *= Time.deltaTime;
         strafe *= Time.deltaTime;
 
@@ -112,7 +105,6 @@ public class CharacterController : MonoBehaviour
         {
 
         }
-
         transform.Translate(strafe, 0, translation);
 
         if (Input.GetKeyDown("escape"))

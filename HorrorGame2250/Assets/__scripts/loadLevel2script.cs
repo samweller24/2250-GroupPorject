@@ -20,6 +20,7 @@ public class loadLevel2script : MonoBehaviour
      public void OnTriggerEnter(Collider col){
          if(col.gameObject.tag == "Player"){
              SceneManager.LoadScene("SamLevel");
+             DontDestroyOnLoad(col.gameObject);
          }
 }
 }
