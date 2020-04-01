@@ -7,8 +7,9 @@ public class PickUpItem
     public enum ItemType
     {
          Flashlight,
-            Axe,
-            Map
+            Gun,
+            Map,
+            Boot
        
     }
 
@@ -19,8 +20,11 @@ public class PickUpItem
         switch (itemType){
             default:
             case ItemType.Flashlight: return ItemAssets.Instance.Flashlight;
-            case ItemType.Axe: return ItemAssets.Instance.Axe;
+            case ItemType.Gun: return ItemAssets.Instance.Gun;
             case ItemType.Map: return ItemAssets.Instance.Map;
+            case ItemType.Boot: return ItemAssets.Instance.Boot;
+            
+
         }
     }
 }

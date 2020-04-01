@@ -11,15 +11,16 @@ public class CharacterController : MonoBehaviour
     public GameObject hand;
     public GameObject leftHand;
     public GameObject spotLight;
-    private Inventory inventory;
+    public Inventory inventory;
     public Image img;
     private Vector3 FlashlightAngle = new Vector3(124.943f, 3.28299f, -176.69f);
-    public UI_Inventory uiInventory;
-    private bool status = false;
-    private bool fDown = false;
-    private bool pageOneVisted = false;
+    public  UI_Inventory uiInventory;
+    private bool _status = false;
+    private bool _fDown = false;
+    private bool _pageOneVisted = false;
+    private bool _bootFound = false;
 
-    private bool isGrounded;
+    private bool _isGrounded;
     public bool imgStatus;
     public AudioSource playerHit;
     Scene m_Scene;
@@ -27,7 +28,8 @@ public class CharacterController : MonoBehaviour
 
 
 
-    public float health = 10f;
+    public static int health = 100;
+    public static int score = 0;
 
     //Start is called before the first frame update
 
@@ -67,7 +69,10 @@ public class CharacterController : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "SamLevel")
         {
+            score = score + 5;
             CheckLight();
+            alertText.text = "Level 2: The Maze";
+            Invoke("ResetText", 2);
         }
     }
 
@@ -75,22 +80,19 @@ public class CharacterController : MonoBehaviour
     {
         inventory = new Inventory();
         uiInventory.SetInventory(inventory);
+       
     }
 
     // Update is called once per frame
     void Update()
     {
+        
         float translation;
         float strafe;
         CheckLight();
 
-        // float translation = Input.GetAxis("Vertical");
-        // float strafe = Input.GetAxis("Horizontal");
-        // Vector3 move = transform.right * strafe + transform.forward * translation;
 
-        // transform.Translate(move);
-
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && _bootFound)
         {
             translation = Input.GetAxis("Vertical") * speed * 2f;
             strafe = Input.GetAxis("Horizontal") * speed * 1.5f;
@@ -100,9 +102,6 @@ public class CharacterController : MonoBehaviour
             translation = Input.GetAxis("Vertical") * speed * 1.0f;
             strafe = Input.GetAxis("Horizontal") * speed * 1.0f;
         }
-
-        //float translation = Input.GetAxis("Vertical")*speed;
-        //float strafe = Input.GetAxis("Horizontal")*speed;
         translation *= Time.deltaTime;
         strafe *= Time.deltaTime;
 
@@ -112,7 +111,6 @@ public class CharacterController : MonoBehaviour
         {
 
         }
-
         transform.Translate(strafe, 0, translation);
 
         if (Input.GetKeyDown("escape"))
@@ -123,7 +121,9 @@ public class CharacterController : MonoBehaviour
         if (Input.GetKeyDown("f"))
         {
             Debug.Log("F press");
-            fDown = true;
+            _fDown = true;
+        }else {
+            _fDown = false;
         }
 
     }
@@ -134,8 +134,8 @@ public class CharacterController : MonoBehaviour
         {
             Debug.Log("Pickup Detected");
             ItemFoundCalled();
-            Update();
-            if (fDown)
+            score = score + 2;
+            if (Input.GetKey("f"))
             {
                 Debug.Log("Call from inside");
                 SetObject(col.gameObject);
@@ -145,10 +145,10 @@ public class CharacterController : MonoBehaviour
         }
         if (col.gameObject.tag == "StoryPage")
         {
-            Debug.Log("Pickup Detected");
+            Debug.Log("StoryPage Detected");
             StoryPageFoundCalled();
-            Update();
-            if (fDown)
+            score++;
+            if (Input.GetKey("f"))
             {
                 Debug.Log("Call from inside");
                 ViewStoryPage(col.gameObject);
@@ -156,15 +156,34 @@ public class CharacterController : MonoBehaviour
                 Debug.Log("Object being set");
             }
         }
+        if (col.gameObject.tag == "Boot")
+        {
+            Debug.Log("Boot Detected");
+            BootFoundCalled();
+            score = score + 2;
+            if (Input.GetKey("f"))
+            {
+                Debug.Log("Call from inside");
+                SetObject(col.gameObject);
+                ResetText();
+                Debug.Log("Object being set");
+            }
+        }
     }
+
     public void ItemFoundCalled()
     {
-        alertText.text = "~Item Found - Press F to Pick Up~";
+        alertText.text = "~Item Found - Hold F to Pick Up~";
     }
 
     public void StoryPageFoundCalled()
     {
-        alertText.text = "~Story Page Found - Press F to View ~";
+        alertText.text = "~Story Page Found - Hold F to View ~";
+    }
+
+    public void BootFoundCalled()
+    {
+        alertText.text = "~Boots Found - Hold F to Pick Up - Use Left Shift To Sprint ~";
     }
 
     public void ResetText()
@@ -175,7 +194,7 @@ public class CharacterController : MonoBehaviour
 
     public void CheckLight()
     {
-        spotLight.SetActive(status);
+        spotLight.SetActive(_status);
     }
 
     public void SetObject(GameObject goItem)
@@ -187,7 +206,7 @@ public class CharacterController : MonoBehaviour
             goItem.transform.eulerAngles = FlashlightAngle;
             goItem.transform.position = hand.transform.position;
 
-            status = true;
+            _status = true;
             CheckLight();
             inventory.AddItem(new PickUpItem { itemType = PickUpItem.ItemType.Flashlight, amount = 1 });
             uiInventory.SetInventory(inventory);
@@ -197,6 +216,12 @@ public class CharacterController : MonoBehaviour
             goItem.transform.parent = leftHand.transform;
             goItem.transform.eulerAngles = FlashlightAngle;
             goItem.transform.position = leftHand.transform.position;
+            inventory.AddItem(new PickUpItem { itemType = PickUpItem.ItemType.Gun, amount = 1 });
+        }
+        if (goItem.name == "Boot")
+        {
+            _bootFound = true;
+            inventory.AddItem(new PickUpItem { itemType = PickUpItem.ItemType.Boot, amount = 1 });
         }
 
     }
@@ -207,10 +232,11 @@ public class CharacterController : MonoBehaviour
         {
             imgStatus = true;
             img.enabled = imgStatus;
-            if (!pageOneVisted)
+            if (!_pageOneVisted)
             {
                 inventory.AddItem(new PickUpItem { itemType = PickUpItem.ItemType.Map, amount = 1 });
                 uiInventory.SetInventory(inventory);
+                _pageOneVisted = true;
             }
         }
     }
@@ -221,7 +247,7 @@ public class CharacterController : MonoBehaviour
         img.enabled = imgStatus;
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(int amount)
     {
         health -= amount;
         //playerHit.Play();
@@ -233,16 +259,24 @@ public class CharacterController : MonoBehaviour
 
     void Die()
     {
-        Destroy(gameObject);
-        alertText.text = "You Died";
-        SceneManager.LoadScene("SamLevel");
+        if(SceneManager.GetActiveScene().name == "SamLevel"){
+            alertText.text = "You Died - Level Restarting";
+            SceneManager.LoadScene("SamLevel");
+            DontDestroyOnLoad(gameObject);
+            gameObject.transform.position = new Vector3(596.4005f,2.31f,716.5336f);
+            Invoke("ResetText",3);
+        }
+
     }
+
 
     void OnTriggerExit(Collider col)
     {
         ResetText();
         ExitStoryPage();
     }
+
+    
 
 
 
