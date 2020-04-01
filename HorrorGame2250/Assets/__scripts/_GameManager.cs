@@ -9,6 +9,7 @@ public class _GameManager : MonoBehaviour
     //static instance for gamemanager to be loaded in all scenes
     public static _GameManager instance;
 
+
     //static player attributes
    public int score = 0;
    public int health = 100;
@@ -19,7 +20,7 @@ public class _GameManager : MonoBehaviour
     public Text healthText;
     public Text sceneText;
 
-    
+    //scene variable to track scene/level
    public Scene m_Scene;
 
    private void MakeSingleton(){
@@ -34,10 +35,22 @@ public class _GameManager : MonoBehaviour
    void Awake(){
        MakeSingleton();
        SceneManage();
+        
    }
+
 
    void Update(){
     SceneManage();
+    Health();
+    Score();
+   }
+
+   void Health(){
+      health = CharacterController.health;
+   }
+
+    void Score(){
+      score = CharacterController.score;
    }
 
    void SceneManage(){

@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
-  public float health = 100f;
-  private float damage = 10f;
+  public int health = 100;
+  private int damage = 50;
   public AudioSource zombieSource;
   private bool zombieClose;
 
@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
   }
 
 
-  public void TakeDamage(float amount){
+  public void TakeDamage(int amount){
       health -= amount;
       if(health <= 0){
             Die();

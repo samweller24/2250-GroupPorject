@@ -15,11 +15,11 @@ public class CharacterController : MonoBehaviour
     public Image img;
     private Vector3 FlashlightAngle = new Vector3(124.943f, 3.28299f, -176.69f);
     public  UI_Inventory uiInventory;
-    private bool status = false;
-    private bool fDown = false;
-    private bool pageOneVisted = false;
+    private bool _status = false;
+    private bool _fDown = false;
+    private bool _pageOneVisted = false;
 
-    private bool isGrounded;
+    private bool _isGrounded;
     public bool imgStatus;
     public AudioSource playerHit;
     Scene m_Scene;
@@ -27,7 +27,8 @@ public class CharacterController : MonoBehaviour
 
 
 
-    public float health = 10f;
+    public static int health = 100;
+    public static int score = 0;
 
     //Start is called before the first frame update
 
@@ -115,7 +116,7 @@ public class CharacterController : MonoBehaviour
         if (Input.GetKeyDown("f"))
         {
             Debug.Log("F press");
-            fDown = true;
+            _fDown = true;
         }
 
     }
@@ -127,7 +128,7 @@ public class CharacterController : MonoBehaviour
             Debug.Log("Pickup Detected");
             ItemFoundCalled();
             Update();
-            if (fDown)
+            if (_fDown)
             {
                 Debug.Log("Call from inside");
                 SetObject(col.gameObject);
@@ -140,7 +141,7 @@ public class CharacterController : MonoBehaviour
             Debug.Log("Pickup Detected");
             StoryPageFoundCalled();
             Update();
-            if (fDown)
+            if (_fDown)
             {
                 Debug.Log("Call from inside");
                 ViewStoryPage(col.gameObject);
@@ -167,7 +168,7 @@ public class CharacterController : MonoBehaviour
 
     public void CheckLight()
     {
-        spotLight.SetActive(status);
+        spotLight.SetActive(_status);
     }
 
     public void SetObject(GameObject goItem)
@@ -179,7 +180,7 @@ public class CharacterController : MonoBehaviour
             goItem.transform.eulerAngles = FlashlightAngle;
             goItem.transform.position = hand.transform.position;
 
-            status = true;
+            _status = true;
             CheckLight();
             inventory.AddItem(new PickUpItem { itemType = PickUpItem.ItemType.Flashlight, amount = 1 });
             uiInventory.SetInventory(inventory);
@@ -199,7 +200,7 @@ public class CharacterController : MonoBehaviour
         {
             imgStatus = true;
             img.enabled = imgStatus;
-            if (!pageOneVisted)
+            if (!_pageOneVisted)
             {
                 inventory.AddItem(new PickUpItem { itemType = PickUpItem.ItemType.Map, amount = 1 });
                 uiInventory.SetInventory(inventory);
@@ -213,7 +214,7 @@ public class CharacterController : MonoBehaviour
         img.enabled = imgStatus;
     }
 
-    public void TakeDamage(float amount)
+    public void TakeDamage(int amount)
     {
         health -= amount;
         //playerHit.Play();
@@ -229,6 +230,7 @@ public class CharacterController : MonoBehaviour
         alertText.text = "You Died";
         SceneManager.LoadScene("SamLevel");
     }
+
 
     void OnTriggerExit(Collider col)
     {
