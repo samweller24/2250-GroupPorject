@@ -18,6 +18,7 @@ public class CharacterController : MonoBehaviour
     private bool _status = false;
     private bool _fDown = false;
     private bool _pageOneVisted = false;
+    private bool _bootFound = false;
 
     private bool _isGrounded;
     public bool imgStatus;
@@ -68,7 +69,10 @@ public class CharacterController : MonoBehaviour
 
         if (SceneManager.GetActiveScene().name == "SamLevel")
         {
+            score = score + 5;
             CheckLight();
+            alertText.text = "Level 2: The Maze";
+            Invoke("ResetText", 2);
         }
     }
 
@@ -82,12 +86,13 @@ public class CharacterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
         float translation;
         float strafe;
         CheckLight();
 
 
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (Input.GetKey(KeyCode.LeftShift) && _bootFound)
         {
             translation = Input.GetAxis("Vertical") * speed * 2f;
             strafe = Input.GetAxis("Horizontal") * speed * 1.5f;
@@ -117,6 +122,8 @@ public class CharacterController : MonoBehaviour
         {
             Debug.Log("F press");
             _fDown = true;
+        }else {
+            _fDown = false;
         }
 
     }
@@ -127,8 +134,8 @@ public class CharacterController : MonoBehaviour
         {
             Debug.Log("Pickup Detected");
             ItemFoundCalled();
-            Update();
-            if (_fDown)
+            score = score + 2;
+            if (Input.GetKey("f"))
             {
                 Debug.Log("Call from inside");
                 SetObject(col.gameObject);
@@ -138,10 +145,10 @@ public class CharacterController : MonoBehaviour
         }
         if (col.gameObject.tag == "StoryPage")
         {
-            Debug.Log("Pickup Detected");
+            Debug.Log("StoryPage Detected");
             StoryPageFoundCalled();
-            Update();
-            if (_fDown)
+            score++;
+            if (Input.GetKey("f"))
             {
                 Debug.Log("Call from inside");
                 ViewStoryPage(col.gameObject);
@@ -149,15 +156,34 @@ public class CharacterController : MonoBehaviour
                 Debug.Log("Object being set");
             }
         }
+        if (col.gameObject.tag == "Boot")
+        {
+            Debug.Log("Boot Detected");
+            BootFoundCalled();
+            score = score + 2;
+            if (Input.GetKey("f"))
+            {
+                Debug.Log("Call from inside");
+                SetObject(col.gameObject);
+                ResetText();
+                Debug.Log("Object being set");
+            }
+        }
     }
+
     public void ItemFoundCalled()
     {
-        alertText.text = "~Item Found - Press F to Pick Up~";
+        alertText.text = "~Item Found - Hold F to Pick Up~";
     }
 
     public void StoryPageFoundCalled()
     {
-        alertText.text = "~Story Page Found - Press F to View ~";
+        alertText.text = "~Story Page Found - Hold F to View ~";
+    }
+
+    public void BootFoundCalled()
+    {
+        alertText.text = "~Boots Found - Hold F to Pick Up - Use Left Shift To Sprint ~";
     }
 
     public void ResetText()
@@ -190,6 +216,12 @@ public class CharacterController : MonoBehaviour
             goItem.transform.parent = leftHand.transform;
             goItem.transform.eulerAngles = FlashlightAngle;
             goItem.transform.position = leftHand.transform.position;
+            inventory.AddItem(new PickUpItem { itemType = PickUpItem.ItemType.Gun, amount = 1 });
+        }
+        if (goItem.name == "Boot")
+        {
+            _bootFound = true;
+            inventory.AddItem(new PickUpItem { itemType = PickUpItem.ItemType.Boot, amount = 1 });
         }
 
     }
@@ -204,6 +236,7 @@ public class CharacterController : MonoBehaviour
             {
                 inventory.AddItem(new PickUpItem { itemType = PickUpItem.ItemType.Map, amount = 1 });
                 uiInventory.SetInventory(inventory);
+                _pageOneVisted = true;
             }
         }
     }
@@ -226,9 +259,14 @@ public class CharacterController : MonoBehaviour
 
     void Die()
     {
-        Destroy(gameObject);
-        alertText.text = "You Died";
-        SceneManager.LoadScene("SamLevel");
+        if(SceneManager.GetActiveScene().name == "SamLevel"){
+            alertText.text = "You Died - Level Restarting";
+            SceneManager.LoadScene("SamLevel");
+            DontDestroyOnLoad(gameObject);
+            gameObject.transform.position = new Vector3(596.4005f,2.31f,716.5336f);
+            Invoke("ResetText",3);
+        }
+
     }
 
 
@@ -237,6 +275,8 @@ public class CharacterController : MonoBehaviour
         ResetText();
         ExitStoryPage();
     }
+
+    
 
 
 

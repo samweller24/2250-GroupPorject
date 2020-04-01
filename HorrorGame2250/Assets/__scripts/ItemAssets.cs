@@ -11,8 +11,9 @@ public class ItemAssets : MonoBehaviour
     }
 
     public GameObject Flashlight;
-    public GameObject Axe;
+    public GameObject Gun;
     public GameObject Map;
+    public GameObject Boot;
 
 
 }

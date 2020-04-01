@@ -4,7 +4,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
   public int health = 100;
-  private int damage = 50;
+  private int damage = 25;
   public AudioSource zombieSource;
   private bool zombieClose;
 
@@ -13,22 +13,13 @@ public class Enemy : MonoBehaviour
   }
 
   void Update(){
-    
-  }
-  
-  //implement this code later on - cuasing a crash at the moment
-  void OnTriggerEnter(Collider col){
-    if(col.gameObject.tag == "Player"){
-      zombieClose = true;
+    if(zombieClose){
       zombieSource.Play();
     }
+    if(!zombieClose){
+       zombieSource.Stop();
+    }
   }
-
-  void OnTriggerExit(){
-    zombieClose = false; 
-    zombieSource.Stop();
-  }
-
 
   public void TakeDamage(int amount){
       health -= amount;

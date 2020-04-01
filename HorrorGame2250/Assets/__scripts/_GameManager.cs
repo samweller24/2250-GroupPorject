@@ -41,16 +41,18 @@ public class _GameManager : MonoBehaviour
 
    void Update(){
     SceneManage();
-    Health();
-    Score();
+    UpdateHealth();
+    UpdateScore();
    }
 
-   void Health(){
+   void UpdateHealth(){
       health = CharacterController.health;
+      healthText.text = "Health: "+health+"";
    }
 
-    void Score(){
+    void UpdateScore(){
       score = CharacterController.score;
+      scoreText.text = "Score: "+score+"";
    }
 
    void SceneManage(){
@@ -62,7 +64,7 @@ public class _GameManager : MonoBehaviour
            healthText.text = "Health: "+health+"";
        }
        if(m_Scene.name == "SamLevel"){
-           sceneText.text = "Level 2";
+           sceneText.text = "Level 2: The Maze";
        }
        if(m_Scene.name == "KylieLevel"){
            
