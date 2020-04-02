@@ -210,6 +210,11 @@ public class CharacterController : MonoBehaviour
                 Debug.Log("Object being set");
             }
         }
+
+         if (col.gameObject.tag == "spawn"){
+             score = score + 5;
+             health = health + score;
+         }
     }
 
     //secondary functions to help display alerts to player upon collisions

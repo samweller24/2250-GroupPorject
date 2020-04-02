@@ -65,13 +65,14 @@ public class _GameManager : MonoBehaviour
 
         //level 4
        if(m_Scene.name == "MainLevel"){
-           sceneText.text = "Level 1";
+           sceneText.text = "Level 1: The Forest";
            scoreText.text = "Score: "+score+"";
            healthText.text = "Health: "+health+"";
        }
        //level 2
        if(m_Scene.name == "SamLevel"){
            sceneText.text = "Level 2: The Maze";
+        
        }
        //levekl 3
        if(m_Scene.name == "KylieLevel"){

@@ -9,6 +9,7 @@ TagManager:
   - StoryPage
   - Enemy
   - Boot
+  - spawn
   layers:
   - Default
   - TransparentFX

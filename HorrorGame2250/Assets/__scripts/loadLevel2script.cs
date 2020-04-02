@@ -12,6 +12,7 @@ public class loadLevel2script : MonoBehaviour
              SceneManager.LoadScene("SamLevel");
              //this keeps characeter instance so progression is kept
              DontDestroyOnLoad(col.gameObject);
+         
              //sets character to position desired on spawn
              col.gameObject.transform.position = new Vector3(596.4005f,2.31f,716.5336f);
          }
