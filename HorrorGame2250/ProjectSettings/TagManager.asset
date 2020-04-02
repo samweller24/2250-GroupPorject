@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Boot
   - spawn
+  - cpu
   layers:
   - Default
   - TransparentFX

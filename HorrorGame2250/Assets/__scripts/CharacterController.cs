@@ -25,6 +25,7 @@ public class CharacterController : MonoBehaviour
     public Image img2;
     public Image img3;
     public Image img4;
+    public Image cpuScreen;
 
     //angle for pick up
     private Vector3 FlashlightAngle = new Vector3(124.943f, 3.28299f, -176.69f);
@@ -97,6 +98,7 @@ public class CharacterController : MonoBehaviour
         img2.enabled = false;
         img3.enabled = false;
         img4.enabled = false;
+        cpuScreen.enabled = false;
        
 
         //scene checker, deals with player respawning labels, as well as score 
@@ -211,6 +213,20 @@ public class CharacterController : MonoBehaviour
             }
         }
 
+        //function to view computer screen
+        if (col.gameObject.tag == "cpu"){
+             alertText.text = "~Hold F to View Computer ~";
+              if (Input.GetKey("f"))
+            {
+                score = score + 2;
+                ResetText();
+                imgStatus = true;
+                cpuScreen.enabled = imgStatus;
+                
+            }
+         }
+
+        //function to add progression at spawns
          if (col.gameObject.tag == "spawn"){
              score = score + 5;
              health = health + score;
@@ -344,6 +360,7 @@ public class CharacterController : MonoBehaviour
         img2.enabled = imgStatus;
         img3.enabled = imgStatus;
         img4.enabled = imgStatus;
+        cpuScreen.enabled = imgStatus;
     }
 
     //function that lets player take damage
