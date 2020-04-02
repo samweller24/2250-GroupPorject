@@ -2,6 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//THIS SCRIPT IS DOWNLOADED AS AN ASSET AND IS NOT USED IN THE GAME
+//WAS NOT WRITTEN BY A GROUP MEMBER
+///
+///
+///
+///
+///
+
 public class Shooter : MonoBehaviour
 {
 
@@ -28,19 +37,16 @@ public class Shooter : MonoBehaviour
         }
     }
 
+
     void Shoot()
     {
-        //  GameObject bullet;
-        //  bullet = Instantiate(bulletPrefab, barrelLocation.position, barrelLocation.rotation);
-        // bullet.GetComponent<Rigidbody>().AddForce(barrelLocation.forward * shotPower);
+      
 
         GameObject tempFlash;
        Instantiate(bulletPrefab, barrelLocation.position, barrelLocation.rotation).GetComponent<Rigidbody>().AddForce(barrelLocation.forward * shotPower);
        tempFlash = Instantiate(muzzleFlashPrefab, barrelLocation.position, barrelLocation.rotation);
 
-       // Destroy(tempFlash, 0.5f);
-        //  Instantiate(casingPrefab, casingExitLocation.position, casingExitLocation.rotation).GetComponent<Rigidbody>().AddForce(casingExitLocation.right * 100f);
-       
+      
     }
 
     void CasingRelease()

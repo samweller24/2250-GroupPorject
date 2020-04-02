@@ -23,6 +23,7 @@ public class _GameManager : MonoBehaviour
     //scene variable to track scene/level
    public Scene m_Scene;
 
+    //makes a singleton that controls the entire game 
    private void MakeSingleton(){
        if(instance != null){
             Destroy(gameObject);
@@ -32,40 +33,47 @@ public class _GameManager : MonoBehaviour
        }
    }
 
+    //whenfirst loaded
    void Awake(){
        MakeSingleton();
        SceneManage();
         
    }
 
-
+    //update function, contsantly calls checking fucntions
    void Update(){
     SceneManage();
     UpdateHealth();
     UpdateScore();
    }
 
+    //function to get and update health of player
    void UpdateHealth(){
       health = CharacterController.health;
       healthText.text = "Health: "+health+"";
    }
 
+    //function to get and update score of player
     void UpdateScore(){
       score = CharacterController.score;
       scoreText.text = "Score: "+score+"";
    }
 
+//function that controls setting scene displays
    void SceneManage(){
        m_Scene = SceneManager.GetActiveScene();
 
+        //level 4
        if(m_Scene.name == "MainLevel"){
            sceneText.text = "Level 1";
            scoreText.text = "Score: "+score+"";
            healthText.text = "Health: "+health+"";
        }
+       //level 2
        if(m_Scene.name == "SamLevel"){
            sceneText.text = "Level 2: The Maze";
        }
+       //levekl 3
        if(m_Scene.name == "KylieLevel"){
            
        }

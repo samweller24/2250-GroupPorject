@@ -4,8 +4,10 @@ namespace UnityTemplateProjects
 {
     public class SimpleCameraController : MonoBehaviour
     {
+        //class for the state of the camera
         class CameraState
         {
+            //variables needed to control camera movement (FPS)
             public float yaw;
             public float pitch;
             public float roll;
@@ -13,6 +15,7 @@ namespace UnityTemplateProjects
             public float y;
             public float z;
 
+            //sets angles on trasnform, tells camera where to look in scene, using variables
             public void SetFromTransform(Transform t)
             {
                 pitch = t.eulerAngles.x;
@@ -23,6 +26,7 @@ namespace UnityTemplateProjects
                 z = t.position.z;
             }
 
+            //functions controls translation of the function
             public void Translate(Vector3 translation)
             {
                 Vector3 rotatedTranslation = Quaternion.Euler(pitch, yaw, roll) * translation;
@@ -32,6 +36,7 @@ namespace UnityTemplateProjects
                 z += rotatedTranslation.z;
             }
 
+            //funtion smoothes out camera translation, giving it a smooth feel
             public void LerpTowards(CameraState target, float positionLerpPct, float rotationLerpPct)
             {
                 yaw = Mathf.Lerp(yaw, target.yaw, rotationLerpPct);
@@ -43,6 +48,7 @@ namespace UnityTemplateProjects
                 z = Mathf.Lerp(z, target.z, positionLerpPct);
             }
 
+            //updates camera trasnform allowing for instant reaction
             public void UpdateTransform(Transform t)
             {
                 t.eulerAngles = new Vector3(pitch, yaw, roll);

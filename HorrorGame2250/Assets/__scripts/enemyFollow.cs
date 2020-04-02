@@ -9,12 +9,14 @@ public class enemyFollow : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        //finds gameobject player to dollow
         player = GameObject.Find("PlayerController");
     }
 
     // Update is called once per frame
     void Update()
     {
+        //updates poition accordingly
         gameObject.GetComponent<NavMeshAgent>().SetDestination(player.transform.position);
     }
 }
