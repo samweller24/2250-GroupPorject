@@ -4,7 +4,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
   //varibales associaetd with the enemy 
-  public int health = 100;
+  public int health = 50;
   private int damage = 25;
 
 //lets an enemy take damage
